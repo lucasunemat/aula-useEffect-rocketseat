@@ -1,4 +1,5 @@
-/*eslint-disable */
+/*eslint-disable*/
+
 import { useState, useEffect } from 'react'
 
 function avisarAPI() {
@@ -7,9 +8,7 @@ function avisarAPI() {
 
 function App() {
   const [list, setList] = useState<string[]>([])
-  //resultado que vai aparecer na tela (filtrado)
-  const [filteredList, setFilteredList] = useState<string[]>([])
-  //valores do user digitando
+  // valores do user digitando
   const [filter, setFilter] = useState('')
 
   // useEffect recebe uma função e uma ordem para executar ela sempre que uma variavel mudar (no caso, a list)
@@ -33,9 +32,11 @@ function App() {
     }
   }, [list])
 
-  useEffect(() => {
-    setFilteredList(list.filter((item) => item.includes(filter)))
-  }, [filter])
+  // essa linha aqui tava num estado (filteredList, setFilteredList), mas não precisa.
+  // Quando um estado é derivado de outro, podemos simplesmente implementar ele e jogar numa variavel
+  // Com isso, não precisamos ficar chamando o setFilteredList toda vez que a lista mudar, e economizamos renderizações
+  // Se você tá usando o useEffect para atualizar estado, provavelmente tá fazendo algo errado
+  const filteredList = list.filter((item) => item.includes(filter))
 
   // essa função é uma closure, ela tem acesso a variavel list porque está dentro da função App()
   function addToList() {
